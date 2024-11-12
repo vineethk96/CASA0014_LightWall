@@ -17,7 +17,7 @@ from paho.mqtt import client as mqtt_client
 
 broker = "mqtt.cetools.org"
 port = 1884
-topic = "UCL/Student/CASA0014/Light/"   # THIS IS WRONG, FIX THIS
+topic = "UCL/student/CASA0014/light/"
 client_id = f'python-mqtt-{random.randint(0, 1000)}'
 file = "./cred.txt"
 username = ""
@@ -37,16 +37,54 @@ tree = {
     "snow": [3, 5, 7, 9, 11, 14, 17] # Only half the snow is listed
 }
 
-def main():
-    user_input = input("Action:")
+pixID_key = "pixelid"
+R_key = "R"
+G_key = "G"
+B_key = "B"
+W_key = "W"
+bright_key = "brightness"
+method_key = "method"
+allLed_key = "allLEDs"
 
-    if(user_input.lower() == "christmas tree"):
-        christmasTree()
-    else:
-        print("Unknown Input")    
+class AbcClass:
+    def __init__(self, in_object):
+        self.obj = in_object
+
+    def dictionary(self):
+        obj = self.obj
+        return dict(a = obj['id'], b = obj['foo'], c = obj['bar'])
+
+def main():
+
+    christmasTree()
+    # user_input = input("Action:")
+
+    # if(user_input.lower() == "christmas tree"):
+    #     christmasTree()
+    # else:
+    #     print("Unknown Input")    
 
 def christmasTree():
     print("Building the Christmas Tree...")
+
+    trunkPixel = {
+        pixID_key:0,
+        R_key:150,
+        G_key:75,
+        B_key:0,
+        W_key:0
+    }
+
+    trunkNode = {
+        allLed_key:[trunkPixel]
+    }
+
+    for i in range(12):
+        trunkPixel.update({pixID_key, i})
+        trunkNode[allLed_key].append(trunkPixel)
+
+    print(trunkNode)
+        
 
     # Create JSON items for each LED node
     # Throw them all in an array
@@ -55,9 +93,9 @@ def christmasTree():
     # Have a function to animate the snow fall
     # Have a function to animate the star (maybe falls under ornament)
 
-    while(1):
-        # Update every 500ms
-        time.sleep(0.5)
+    # while(1):
+    #     # Update every 500ms
+    #     time.sleep(0.5)
 
         
 
